@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Avion {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

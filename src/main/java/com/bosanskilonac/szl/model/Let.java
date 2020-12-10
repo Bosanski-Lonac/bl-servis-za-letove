@@ -4,6 +4,10 @@ import java.time.Duration;
 
 import javax.persistence.*;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Let {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
