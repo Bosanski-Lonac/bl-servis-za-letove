@@ -1,4 +1,4 @@
-package model;
+package com.bosanskilonac.szl.model;
 
 import java.time.Duration;
 
