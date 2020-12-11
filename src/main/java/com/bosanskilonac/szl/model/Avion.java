@@ -18,11 +18,13 @@ public class Avion {
 	private Integer kapacitetPutnika;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "avion", orphanRemoval = true)
 	private List<Let> letovi;
-	
-	public Avion(String naziv, Integer kapacitetPutnika) {
-		this.naziv = naziv;
-		this.kapacitetPutnika = kapacitetPutnika;
-		letovi=new ArrayList<>();
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNaziv() {

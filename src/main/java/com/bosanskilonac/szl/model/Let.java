@@ -21,13 +21,13 @@ public class Let {
 	@Column(name="duzina_leta")
 	private Duration duzinaLeta;
 	private Integer cena;
-	
-	public Let(Avion avion, String pocetnaDestinacija, String krajnjaDestinacija, Duration duzinaLeta, Integer cena) {
-		this.avion = avion;
-		this.pocetnaDestinacija = pocetnaDestinacija;
-		this.krajnjaDestinacija = krajnjaDestinacija;
-		this.duzinaLeta = duzinaLeta;
-		this.cena = cena;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Avion getAvion() {
