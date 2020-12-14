@@ -37,7 +37,7 @@ public class AvionController {
 		return new ResponseEntity<>(avionService.add(avionCreateDto), HttpStatus.CREATED);
 	}
 	
-	@ApiOperation(value = "Dodavanje aviona")
+	@ApiOperation(value = "Brisanje aviona")
 	@DeleteMapping("{avionId}")
 	@CheckSecurity(roles = {Role.ROLE_ADMIN}, checkOwnership = false)
 	public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, 
