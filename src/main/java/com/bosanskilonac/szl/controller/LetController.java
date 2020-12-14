@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bosanskilonac.szl.service.LetService;
 
 import dto.LetCUDto;
+import dto.LetCriteriaDto;
 import dto.LetDto;
 import enums.Role;
 import io.swagger.annotations.ApiOperation;
@@ -43,9 +44,9 @@ public class LetController {
 	@ApiOperation(value = "Prikaz svih letova")
 	@GetMapping
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN}, checkOwnership = false)
-	public ResponseEntity<Page<LetDto>> getAllLet(@RequestHeader("Authorization") String authorization, 
-			Pageable pageable) {
-		return new ResponseEntity<>(letService.findAll(pageable), HttpStatus.OK);
+	public ResponseEntity<Page<LetDto>> getLet(@RequestHeader("Authorization") String authorization, 
+			@RequestBody @Valid LetCriteriaDto letCriteriaDto, Pageable pageable) {
+		return new ResponseEntity<>(letService.findAll(letCriteriaDto, pageable), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Brisanje leta")

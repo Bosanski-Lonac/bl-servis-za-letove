@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.bosanskilonac.szl.mapper.LetMapper;
 import com.bosanskilonac.szl.model.Avion;
 import com.bosanskilonac.szl.model.Let;
+import com.bosanskilonac.szl.model.LetSpecifications;
 import com.bosanskilonac.szl.repository.AvionRepository;
 import com.bosanskilonac.szl.repository.LetRepository;
 import com.bosanskilonac.szl.service.LetService;
 
 import dto.LetCUDto;
+import dto.LetCriteriaDto;
 import dto.LetDto;
 import exceptions.NotFoundException;
 
@@ -40,15 +42,9 @@ public class LetServiceImpl implements LetService {
 	}
 
 	@Override
-	public Page<LetDto> findAll(Pageable pageable) throws EmptyResultDataAccessException {
-		return letRepository.findAll(pageable)
+	public Page<LetDto> findAll(LetCriteriaDto letCriteriaDto, Pageable pageable) throws EmptyResultDataAccessException {
+		return letRepository.findAll(LetSpecifications.getLetByCriteriaSpec(letCriteriaDto), pageable)
 				.map(letMapper::letToLetDto);
-	}
-
-	@Override
-	public Page<LetDto> findByCriteria(Pageable pageable) throws EmptyResultDataAccessException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

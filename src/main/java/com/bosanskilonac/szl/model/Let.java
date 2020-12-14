@@ -1,10 +1,7 @@
 package com.bosanskilonac.szl.model;
 
-import java.time.Duration;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,9 +18,8 @@ public class Let {
 	@NotBlank
 	@Column(name="krajnja_destinacija")
 	private String krajnjaDestinacija;
-	@NotNull
-	@Column(name="duzina_leta")
-	private Duration duzinaLeta;
+	@Positive
+	private Integer duzina; // u minutima
 	@Positive
 	private Integer cena;
 	@ManyToOne
@@ -53,12 +49,12 @@ public class Let {
 		this.krajnjaDestinacija = krajnjaDestinacija;
 	}
 
-	public Duration getDuzinaLeta() {
-		return duzinaLeta;
+	public Integer getDuzina() {
+		return duzina;
 	}
 
-	public void setDuzinaLeta(Duration duzinaLeta) {
-		this.duzinaLeta = duzinaLeta;
+	public void setDuzina(Integer duzina) {
+		this.duzina = duzina;
 	}
 
 	public Integer getCena() {

@@ -17,7 +17,7 @@ public class LetMapper {
 		letDto.setId(let.getId());
 		letDto.setPocetnaDestinacija(let.getPocetnaDestinacija());
 		letDto.setKrajnjaDestinacija(let.getKrajnjaDestinacija());
-		letDto.setDuzinaLeta(let.getDuzinaLeta());
+		letDto.setDuzina(let.getDuzina());
 		letDto.setCena(let.getCena());
 		letDto.setAvion(avionMapper.avionToAvionDto(let.getAvion()));
 		return letDto;
@@ -27,7 +27,7 @@ public class LetMapper {
 		Let let = new Let();
 		let.setPocetnaDestinacija(letCreateDto.getPocetnaDestinacija());
 		let.setKrajnjaDestinacija(letCreateDto.getKrajnjaDestinacija());
-		let.setDuzinaLeta(letCreateDto.getDuzinaLeta());
+		let.setDuzina(letCreateDto.getDuzina());
 		let.setCena(letCreateDto.getCena());
 		let.setAvion(avion);
 		return let;

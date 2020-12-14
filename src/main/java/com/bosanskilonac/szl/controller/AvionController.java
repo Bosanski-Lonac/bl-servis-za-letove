@@ -38,7 +38,7 @@ public class AvionController {
 	}
 	
 	@ApiOperation(value = "Brisanje aviona")
-	@DeleteMapping("{avionId}")
+	@DeleteMapping("/{avionId}")
 	@CheckSecurity(roles = {Role.ROLE_ADMIN}, checkOwnership = false)
 	public ResponseEntity<?> delete(@RequestHeader("Authorization") String authorization, 
 			@PathVariable("avionId") Long avionId) {
