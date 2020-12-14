@@ -3,6 +3,9 @@ package com.bosanskilonac.szl.model;
 import java.time.Duration;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -12,15 +15,19 @@ public class Let {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	@ManyToOne
-	private Avion avion;
+	@NotBlank
 	@Column(name="pocetna_destinacija")
 	private String pocetnaDestinacija;
+	@NotBlank
 	@Column(name="krajnja_destinacija")
 	private String krajnjaDestinacija;
+	@NotNull
 	@Column(name="duzina_leta")
 	private Duration duzinaLeta;
+	@Positive
 	private Integer cena;
+	@ManyToOne
+	private Avion avion;
 
 	public Long getId() {
 		return id;
@@ -28,14 +35,6 @@ public class Let {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Avion getAvion() {
-		return avion;
-	}
-
-	public void setAvion(Avion avion) {
-		this.avion = avion;
 	}
 
 	public String getPocetnaDestinacija() {
@@ -68,5 +67,13 @@ public class Let {
 
 	public void setCena(Integer cena) {
 		this.cena = cena;
+	}
+	
+	public Avion getAvion() {
+		return avion;
+	}
+
+	public void setAvion(Avion avion) {
+		this.avion = avion;
 	}
 }

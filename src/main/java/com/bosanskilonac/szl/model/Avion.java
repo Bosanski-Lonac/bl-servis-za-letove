@@ -1,9 +1,10 @@
 package com.bosanskilonac.szl.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,7 +14,9 @@ public class Avion {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	@NotBlank
 	private String naziv;
+	@Positive
 	@Column(name="kapacitet_putnika")
 	private Integer kapacitetPutnika;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "avion", orphanRemoval = true)
