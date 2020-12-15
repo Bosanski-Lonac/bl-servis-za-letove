@@ -2,7 +2,8 @@ package com.bosanskilonac.szl.service.implementation;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.szl.mapper.LetMapper;
@@ -14,12 +15,13 @@ import com.bosanskilonac.szl.repository.LetRepository;
 import com.bosanskilonac.szl.service.LetService;
 
 import dto.LetCUDto;
-import dto.LetCriteriaDto;
 import dto.LetDto;
 import exceptions.NotFoundException;
 
 @Service
 public class LetServiceImpl implements LetService {
+	private final int velicinaStranice = 1;
+	
 	private LetRepository letRepository;
 	private LetMapper letMapper;
 	private AvionRepository avionRepository;
@@ -41,9 +43,25 @@ public class LetServiceImpl implements LetService {
 		return letDto;
 	}
 
+	/*@Override
+	public Page<LetDto> findAll(LetCriteriaDto letCriteriaDto) throws EmptyResultDataAccessException {
+		return letRepository.findAll(LetSpecifications.getLetByCriteriaSpec(letCriteriaDto), PageRequest.of(letCriteriaDto.getStranica(), velicinaStranice))
+				.map(letMapper::letToLetDto);
+	}*/
+	
 	@Override
-	public Page<LetDto> findAll(LetCriteriaDto letCriteriaDto, Pageable pageable) throws EmptyResultDataAccessException {
-		return letRepository.findAll(LetSpecifications.getLetByCriteriaSpec(letCriteriaDto), pageable)
+	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, String minDuzina,
+			String maxDuzina, String minCena, String maxCena, String brojStraniceStr)
+			throws EmptyResultDataAccessException {
+		Specification<Let> specification = LetSpecifications.getLetByCriteriaSpec(pocetnaDestinacija,
+				krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena);
+		Integer brojStranice = 0;
+		try {
+			brojStranice = Integer.parseInt(brojStraniceStr);
+		} catch (NumberFormatException e) {
+			
+		}
+		return letRepository.findAll(specification, PageRequest.of(brojStranice, velicinaStranice))
 				.map(letMapper::letToLetDto);
 	}
 

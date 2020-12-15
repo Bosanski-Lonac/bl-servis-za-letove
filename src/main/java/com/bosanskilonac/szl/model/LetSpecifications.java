@@ -2,8 +2,6 @@ package com.bosanskilonac.szl.model;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import dto.LetCriteriaDto;
-
 public class LetSpecifications {
 	public static Specification<Let> getLetByPocetnaDestinacijaSpec(String pocetnaDestinacija) {
 		return (root, query, criteriaBuilder) -> {
@@ -29,33 +27,46 @@ public class LetSpecifications {
 		};
 	}
 	
-	public static Specification<Let> getLetByCriteriaSpec(LetCriteriaDto letCriteriaDto) {
+	public static Specification<Let> getLetByCriteriaSpec(String pocetnaDestinacija, String krajnjaDestinacija, String minDuzinaStr,
+			String maxDuzinaStr, String minCenaStr, String maxCenaStr) {
 		Specification<Let> specifications = null;
-		if(letCriteriaDto.getPocetnaDestinacija() != null) {
-			specifications = getLetByPocetnaDestinacijaSpec(letCriteriaDto.getPocetnaDestinacija());
+		if(!pocetnaDestinacija.isBlank()) {
+			specifications = getLetByPocetnaDestinacijaSpec(pocetnaDestinacija);
 		}
-		if(letCriteriaDto.getKrajnjaDestinacija() != null) {
-			Specification<Let> specification = getLetByPocetnaDestinacijaSpec(letCriteriaDto.getPocetnaDestinacija());
+		if(!krajnjaDestinacija.isBlank()) {
+			Specification<Let> specification = getLetByPocetnaDestinacijaSpec(krajnjaDestinacija);
 			if(specifications != null) {
 				specifications.and(specification);
 			} else {
 				specifications = specification;
 			}
 		}
-		if(letCriteriaDto.getMinDuzina() != null && letCriteriaDto.getMaxDuzina() != null) {
-			Specification<Let> specification = getLetByDuzinaSpec(letCriteriaDto.getMinDuzina(), letCriteriaDto.getMaxDuzina());
-			if(specifications != null) {
-				specifications.and(specification);
-			} else {
-				specifications = specification;
+		if(!minDuzinaStr.isBlank() && !maxDuzinaStr.isBlank()) {
+			try {
+				Integer minDuzina = Integer.parseInt(minDuzinaStr);
+				Integer maxDuzina = Integer.parseInt(maxDuzinaStr);
+				Specification<Let> specification = getLetByDuzinaSpec(minDuzina, maxDuzina);
+				if(specifications != null) {
+					specifications.and(specification);
+				} else {
+					specifications = specification;
+				}
+			} catch (NumberFormatException e) {
+				
 			}
 		}
-		if(letCriteriaDto.getMinCena() != null && letCriteriaDto.getMinCena() != null) {
-			Specification<Let> specification = getLetByCenaSpec(letCriteriaDto.getMinCena(), letCriteriaDto.getMinCena());
-			if(specifications != null) {
-				specifications.and(specification);
-			} else {
-				specifications = specification;
+		if(!minCenaStr.isBlank() && !minCenaStr.isBlank()) {
+			try {
+				Integer minCena = Integer.parseInt(minCenaStr);
+				Integer maxCena = Integer.parseInt(maxCenaStr);
+				Specification<Let> specification = getLetByCenaSpec(minCena, maxCena);
+				if(specifications != null) {
+					specifications.and(specification);
+				} else {
+					specifications = specification;
+				}
+			} catch (NumberFormatException e) {
+				
 			}
 		}
 		return specifications;

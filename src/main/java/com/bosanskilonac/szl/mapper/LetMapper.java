@@ -12,6 +12,10 @@ import dto.LetDto;
 public class LetMapper {
 	private AvionMapper avionMapper;
 	
+	public LetMapper(AvionMapper avionMapper) {
+		this.avionMapper = avionMapper;
+	}
+	
 	public LetDto letToLetDto(Let let) {
 		LetDto letDto = new LetDto();
 		letDto.setId(let.getId());
