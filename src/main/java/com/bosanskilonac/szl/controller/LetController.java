@@ -46,11 +46,11 @@ public class LetController {
 	public ResponseEntity<Page<LetDto>> getLet(@RequestHeader("Authorization") String authorization,
 			@RequestParam(value = "dprt", required = false, defaultValue="") String pocetnaDestinacija,
 			@RequestParam(value = "arvl", required = false, defaultValue="") String krajnjaDestinacija,
-			@RequestParam(value = "nduz", required = false, defaultValue="") String minDuzina,
-			@RequestParam(value = "xduz", required = false, defaultValue="") String maxDuzina,
-			@RequestParam(value = "ncen", required = false, defaultValue="") String minCena,
-			@RequestParam(value = "xcen", required = false, defaultValue="") String maxCena,
-			@RequestParam(value = "bstr", required = false, defaultValue="0") String brojStranice) {
+			@RequestParam(value = "nduz", required = false, defaultValue="-1") Integer minDuzina,
+			@RequestParam(value = "xduz", required = false, defaultValue="-1") Integer maxDuzina,
+			@RequestParam(value = "ncen", required = false, defaultValue="-1") Integer minCena,
+			@RequestParam(value = "xcen", required = false, defaultValue="-1") Integer maxCena,
+			@RequestParam(value = "bstr", required = false, defaultValue="0") Integer brojStranice) {
 		return new ResponseEntity<>(letService.findAll(pocetnaDestinacija, krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena, brojStranice), HttpStatus.OK);
 	}
 	

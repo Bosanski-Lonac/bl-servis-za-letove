@@ -5,13 +5,13 @@ import org.springframework.data.jpa.domain.Specification;
 public class LetSpecifications {
 	public static Specification<Let> getLetByPocetnaDestinacijaSpec(String pocetnaDestinacija) {
 		return (root, query, criteriaBuilder) -> {
-			return criteriaBuilder.like(root.get("pocetnaDestinacija"), "%" + pocetnaDestinacija + "%");
+			return criteriaBuilder.like(criteriaBuilder.lower(root.get("pocetnaDestinacija")), "%" + pocetnaDestinacija.toLowerCase() + "%");
 		};
 	}
 	
 	public static Specification<Let> getLetByKrajnjaDestinacijaSpec(String krajnjaDestinacija) {
 		return (root, query, criteriaBuilder) -> {
-			return criteriaBuilder.like(root.get("krajnjaDestinacija"), "%" + krajnjaDestinacija + "%");
+			return criteriaBuilder.like(criteriaBuilder.lower(root.get("krajnjaDestinacija")), "%" + krajnjaDestinacija.toLowerCase() + "%");
 		};
 	}
 	
@@ -27,46 +27,34 @@ public class LetSpecifications {
 		};
 	}
 	
-	public static Specification<Let> getLetByCriteriaSpec(String pocetnaDestinacija, String krajnjaDestinacija, String minDuzinaStr,
-			String maxDuzinaStr, String minCenaStr, String maxCenaStr) {
+	public static Specification<Let> getLetByCriteriaSpec(String pocetnaDestinacija, String krajnjaDestinacija, Integer minDuzina,
+			Integer maxDuzina, Integer minCena, Integer maxCena) {
 		Specification<Let> specifications = null;
 		if(!pocetnaDestinacija.isBlank()) {
-			specifications = getLetByPocetnaDestinacijaSpec(pocetnaDestinacija);
+			specifications = Specification.where(getLetByPocetnaDestinacijaSpec(pocetnaDestinacija));
 		}
 		if(!krajnjaDestinacija.isBlank()) {
-			Specification<Let> specification = getLetByPocetnaDestinacijaSpec(krajnjaDestinacija);
+			Specification<Let> specification = getLetByKrajnjaDestinacijaSpec(krajnjaDestinacija);
 			if(specifications != null) {
 				specifications.and(specification);
 			} else {
-				specifications = specification;
+				specifications = Specification.where(specification);
 			}
 		}
-		if(!minDuzinaStr.isBlank() && !maxDuzinaStr.isBlank()) {
-			try {
-				Integer minDuzina = Integer.parseInt(minDuzinaStr);
-				Integer maxDuzina = Integer.parseInt(maxDuzinaStr);
-				Specification<Let> specification = getLetByDuzinaSpec(minDuzina, maxDuzina);
-				if(specifications != null) {
-					specifications.and(specification);
-				} else {
-					specifications = specification;
-				}
-			} catch (NumberFormatException e) {
-				
+		if(minDuzina >= 0 && maxDuzina >= 0) {
+			Specification<Let> specification = getLetByDuzinaSpec(minDuzina, maxDuzina);
+			if(specifications != null) {
+				specifications.and(specification);
+			} else {
+				specifications = Specification.where(specification);
 			}
 		}
-		if(!minCenaStr.isBlank() && !minCenaStr.isBlank()) {
-			try {
-				Integer minCena = Integer.parseInt(minCenaStr);
-				Integer maxCena = Integer.parseInt(maxCenaStr);
-				Specification<Let> specification = getLetByCenaSpec(minCena, maxCena);
-				if(specifications != null) {
-					specifications.and(specification);
-				} else {
-					specifications = specification;
-				}
-			} catch (NumberFormatException e) {
-				
+		if(minCena >= 0 && maxCena >= 0) {
+			Specification<Let> specification = getLetByCenaSpec(minCena, maxCena);
+			if(specifications != null) {
+				specifications.and(specification);
+			} else {
+				specifications = Specification.where(specification);
 			}
 		}
 		return specifications;

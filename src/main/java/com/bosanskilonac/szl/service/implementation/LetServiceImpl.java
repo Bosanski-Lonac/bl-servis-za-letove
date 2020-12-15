@@ -20,7 +20,7 @@ import exceptions.NotFoundException;
 
 @Service
 public class LetServiceImpl implements LetService {
-	private final int velicinaStranice = 1;
+	private final int velicinaStranice = 50;
 	
 	private LetRepository letRepository;
 	private LetMapper letMapper;
@@ -50,17 +50,11 @@ public class LetServiceImpl implements LetService {
 	}*/
 	
 	@Override
-	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, String minDuzina,
-			String maxDuzina, String minCena, String maxCena, String brojStraniceStr)
+	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, Integer minDuzina,
+			Integer maxDuzina, Integer minCena, Integer maxCena, Integer brojStranice)
 			throws EmptyResultDataAccessException {
 		Specification<Let> specification = LetSpecifications.getLetByCriteriaSpec(pocetnaDestinacija,
 				krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena);
-		Integer brojStranice = 0;
-		try {
-			brojStranice = Integer.parseInt(brojStraniceStr);
-		} catch (NumberFormatException e) {
-			
-		}
 		return letRepository.findAll(specification, PageRequest.of(brojStranice, velicinaStranice))
 				.map(letMapper::letToLetDto);
 	}

@@ -10,6 +10,6 @@ import exceptions.NotFoundException;
 
 public interface LetService {
 	LetDto add(LetCUDto letCUDto) throws DataIntegrityViolationException, NotFoundException;
-	Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, String minDuzina, String maxDuzina, String minCena, String maxCena, String brojStranice) throws EmptyResultDataAccessException;
+	Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, Integer minDuzina, Integer maxDuzina, Integer minCena, Integer maxCena, Integer brojStranice) throws EmptyResultDataAccessException;
 	void deleteById(Long id) throws EmptyResultDataAccessException;
 }
