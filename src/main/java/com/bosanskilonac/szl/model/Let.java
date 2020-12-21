@@ -1,5 +1,7 @@
 package com.bosanskilonac.szl.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -21,7 +23,9 @@ public class Let {
 	@Positive
 	private Integer duzina; // u minutima
 	@Positive
-	private Integer cena;
+	private BigDecimal cena;
+	@Positive
+	private Integer milje;
 	@ManyToOne
 	private Avion avion;
 
@@ -57,14 +61,22 @@ public class Let {
 		this.duzina = duzina;
 	}
 
-	public Integer getCena() {
+	public BigDecimal getCena() {
 		return cena;
 	}
 
-	public void setCena(Integer cena) {
+	public void setCena(BigDecimal cena) {
 		this.cena = cena;
 	}
 	
+	public Integer getMilje() {
+		return milje;
+	}
+
+	public void setMilje(Integer milje) {
+		this.milje = milje;
+	}
+
 	public Avion getAvion() {
 		return avion;
 	}

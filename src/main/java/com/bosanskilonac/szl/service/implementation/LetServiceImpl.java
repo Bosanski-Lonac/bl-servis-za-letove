@@ -4,7 +4,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.bosanskilonac.szl.mapper.LetMapper;
 import com.bosanskilonac.szl.model.Avion;
@@ -17,6 +19,7 @@ import com.bosanskilonac.szl.service.LetService;
 import dto.LetCUDto;
 import dto.LetDto;
 import exceptions.NotFoundException;
+import utility.BLURL;
 
 @Service
 public class LetServiceImpl implements LetService {
@@ -25,11 +28,14 @@ public class LetServiceImpl implements LetService {
 	private LetRepository letRepository;
 	private LetMapper letMapper;
 	private AvionRepository avionRepository;
-
-	public LetServiceImpl(LetRepository letRepository, LetMapper letMapper, AvionRepository avionRepository) {
+	private RestTemplate serviceCommunicationRestTemplate;
+	
+	public LetServiceImpl(LetRepository letRepository, LetMapper letMapper, AvionRepository avionRepository,
+			RestTemplate serviceCommunicationRestTemplate) {
 		this.letRepository = letRepository;
 		this.letMapper = letMapper;
 		this.avionRepository = avionRepository;
+		this.serviceCommunicationRestTemplate = serviceCommunicationRestTemplate;
 	}
 
 	@Override
@@ -65,6 +71,8 @@ public class LetServiceImpl implements LetService {
 	@Override
 	public void deleteById(Long id) throws EmptyResultDataAccessException {
 		letRepository.deleteById(id);
+		// Ovo mozda treba da bude asinhrono
+		serviceCommunicationRestTemplate.exchange(BLURL.SZAK_URL + BLURL.KARTA_URL + BLURL.LET_URL + "?id=" + id.toString(), HttpMethod.DELETE, null, Void.class);
 	}
 
 }

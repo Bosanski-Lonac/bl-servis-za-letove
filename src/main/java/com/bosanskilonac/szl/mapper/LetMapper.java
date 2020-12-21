@@ -23,6 +23,7 @@ public class LetMapper {
 		letDto.setKrajnjaDestinacija(let.getKrajnjaDestinacija());
 		letDto.setDuzina(let.getDuzina());
 		letDto.setCena(let.getCena());
+		letDto.setMilje(let.getMilje());
 		letDto.setAvion(avionMapper.avionToAvionDto(let.getAvion()));
 		return letDto;
 	}
@@ -33,6 +34,7 @@ public class LetMapper {
 		let.setKrajnjaDestinacija(letCreateDto.getKrajnjaDestinacija());
 		let.setDuzina(letCreateDto.getDuzina());
 		let.setCena(letCreateDto.getCena());
+		let.setMilje(letCreateDto.getMilje());
 		let.setAvion(avion);
 		return let;
 	}

@@ -1,5 +1,7 @@
 package com.bosanskilonac.szl.runner;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -46,7 +48,7 @@ public class Runner implements CommandLineRunner {
 		let1.setPocetnaDestinacija("Beograd");
 		let1.setKrajnjaDestinacija("Atina");
 		let1.setDuzina(30);
-		let1.setCena(60);
+		let1.setCena(BigDecimal.valueOf(60));
 		let1.setAvion(avion2);
 		letRepository.save(let1);
 		
@@ -54,7 +56,7 @@ public class Runner implements CommandLineRunner {
 		let2.setPocetnaDestinacija("Beograd");
 		let2.setKrajnjaDestinacija("London");
 		let2.setDuzina(120);
-		let2.setCena(250);
+		let2.setCena(BigDecimal.valueOf(250));
 		let2.setAvion(avion1);
 		letRepository.save(let2);
 	}
