@@ -43,11 +43,14 @@ public class LetServiceImpl implements LetService {
 		return letDto;
 	}
 
-	/*@Override
-	public Page<LetDto> findAll(LetCriteriaDto letCriteriaDto) throws EmptyResultDataAccessException {
-		return letRepository.findAll(LetSpecifications.getLetByCriteriaSpec(letCriteriaDto), PageRequest.of(letCriteriaDto.getStranica(), velicinaStranice))
-				.map(letMapper::letToLetDto);
-	}*/
+	@Override
+	public LetDto findById(Long id) throws NotFoundException {
+		Let let = letRepository
+				.findById(id)
+				.orElseThrow(() -> new NotFoundException("Let nije nađen."));
+		LetDto letDto = letMapper.letToLetDto(let);
+		return letDto;
+	}
 	
 	@Override
 	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, Integer minDuzina,

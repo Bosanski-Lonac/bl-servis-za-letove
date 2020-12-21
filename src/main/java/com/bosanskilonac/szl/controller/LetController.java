@@ -40,10 +40,16 @@ public class LetController {
 		return new ResponseEntity<>(letService.add(letCreateDto), HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "Prikaz leta sa id-om")
+	@GetMapping("/{letId}")
+	public ResponseEntity<LetDto> getLet(@PathVariable("letId") Long letId) {
+		return new ResponseEntity<>(letService.findById(letId), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "Prikaz svih letova")
 	@GetMapping
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN}, checkOwnership = false)
-	public ResponseEntity<Page<LetDto>> getLet(@RequestHeader("Authorization") String authorization,
+	public ResponseEntity<Page<LetDto>> getLetovi(@RequestHeader("Authorization") String authorization,
 			@RequestParam(value = "dprt", required = false, defaultValue="") String pocetnaDestinacija,
 			@RequestParam(value = "arvl", required = false, defaultValue="") String krajnjaDestinacija,
 			@RequestParam(value = "nduz", required = false, defaultValue="-1") Integer minDuzina,
