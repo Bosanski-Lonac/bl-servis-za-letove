@@ -1,6 +1,8 @@
 package com.bosanskilonac.szl.service.implementation;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.bosanskilonac.szl.mapper.AvionMapper;
@@ -15,6 +17,8 @@ import exceptions.InUseException;
 
 @Service
 public class AvionServiceImpl implements AvionService {
+	private final int velicinaStranice = 50;
+	
 	private AvionRepository avionRepository;
 	private AvionMapper avionMapper;
 	private LetRepository letRepository;
@@ -31,6 +35,12 @@ public class AvionServiceImpl implements AvionService {
 		avion = avionRepository.save(avion);
 		AvionDto avionDto = avionMapper.avionToAvionDto(avion);
 		return avionDto;
+	}
+	
+	@Override
+	public Page<AvionDto> findAll(Integer brojStranice) throws EmptyResultDataAccessException {
+		return avionRepository.findAll(PageRequest.of(brojStranice, velicinaStranice))
+				.map(avionMapper::avionToAvionDto);
 	}
 
 	@Override
