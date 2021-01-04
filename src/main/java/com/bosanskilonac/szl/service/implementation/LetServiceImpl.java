@@ -4,10 +4,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.HttpMethod;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.bosanskilonac.szl.mapper.LetMapper;
 import com.bosanskilonac.szl.model.Avion;
@@ -16,6 +14,7 @@ import com.bosanskilonac.szl.model.LetSpecifications;
 import com.bosanskilonac.szl.repository.AvionRepository;
 import com.bosanskilonac.szl.repository.LetRepository;
 import com.bosanskilonac.szl.service.LetService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dto.LetCUDto;
@@ -30,32 +29,20 @@ public class LetServiceImpl implements LetService {
 	private LetRepository letRepository;
 	private LetMapper letMapper;
 	private AvionRepository avionRepository;
-	//private RestTemplate serviceCommunicationRestTemplate;
 	private JmsTemplate jmsTemplate;
 	private ObjectMapper objectMapper;
-	private String destinationPonistiLet;
 
 	public LetServiceImpl(LetRepository letRepository,
 			LetMapper letMapper,
 			AvionRepository avionRepository,
 			JmsTemplate jmsTemplate,
-			ObjectMapper objectMapper,
-			String destinationPonistiLet) {
+			ObjectMapper objectMapper) {
 		this.letRepository = letRepository;
 		this.letMapper = letMapper;
 		this.avionRepository = avionRepository;
 		this.jmsTemplate = jmsTemplate;
 		this.objectMapper = objectMapper;
-		//this.destinationPonistiLet = destinationPonistiLet;
 	}
-
-	/*public LetServiceImpl(LetRepository letRepository, LetMapper letMapper, AvionRepository avionRepository,
-			RestTemplate serviceCommunicationRestTemplate) {
-		this.letRepository = letRepository;
-		this.letMapper = letMapper;
-		this.avionRepository = avionRepository;
-		this.serviceCommunicationRestTemplate = serviceCommunicationRestTemplate;
-	}*/
 
 	@Override
 	public LetDto add(LetCUDto letCreateDto) throws NotFoundException {
@@ -88,11 +75,18 @@ public class LetServiceImpl implements LetService {
 	}
 
 	@Override
-	public void deleteById(Long id) throws EmptyResultDataAccessException {
+	public void deleteById(Long id) throws EmptyResultDataAccessException, NotFoundException {
+		Let let = letRepository
+				.findById(id)
+				.orElseThrow(() -> new NotFoundException("Let nije nađen."));
 		letRepository.deleteById(id);
-		// Ovo treba da bude asinhrono
-		// serviceCommunicationRestTemplate.exchange(BLURL.SZAK_URL + BLURL.KARTA_URL + BLURL.LET_URL + "?id=" + id.toString(), HttpMethod.DELETE, null, Void.class);
-		//jmsTemplate.convertAndSend(new ActiveMQTopic(destinationPonistiLet), objectMapper.writeValueAsString(value));
+		LetDto letDto = letMapper.letToLetDto(let);
+		try {
+			jmsTemplate.convertAndSend(BLURL.AMQUEUE_FIDS, objectMapper.writeValueAsString(letDto));
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
