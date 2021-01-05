@@ -43,7 +43,8 @@ public class LetController {
 	@ApiOperation(value = "Prikaz leta sa id-om")
 	@GetMapping("/{letId}")
 	@CheckSecurity(roles = {Role.ROLE_SERVICE}, checkOwnership = false)
-	public ResponseEntity<LetDto> getLet(@PathVariable("letId") Long letId) {
+	public ResponseEntity<LetDto> getLet(@RequestHeader("Authorization") String authorization,
+			@PathVariable("letId") Long letId) {
 		return new ResponseEntity<>(letService.findById(letId), HttpStatus.OK);
 	}
 	

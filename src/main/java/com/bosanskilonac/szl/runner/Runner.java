@@ -49,6 +49,7 @@ public class Runner implements CommandLineRunner {
 		let1.setKrajnjaDestinacija("Atina");
 		let1.setDuzina(30);
 		let1.setCena(BigDecimal.valueOf(60));
+		let1.setMilje(250);
 		let1.setAvion(avion2);
 		letRepository.save(let1);
 		
@@ -57,6 +58,7 @@ public class Runner implements CommandLineRunner {
 		let2.setKrajnjaDestinacija("London");
 		let2.setDuzina(120);
 		let2.setCena(BigDecimal.valueOf(250));
+		let2.setMilje(1250);
 		let2.setAvion(avion1);
 		letRepository.save(let2);
 	}

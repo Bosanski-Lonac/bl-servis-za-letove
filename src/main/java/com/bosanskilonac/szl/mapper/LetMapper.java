@@ -10,11 +10,6 @@ import dto.LetDto;
 
 @Component
 public class LetMapper {
-	private AvionMapper avionMapper;
-	
-	public LetMapper(AvionMapper avionMapper) {
-		this.avionMapper = avionMapper;
-	}
 	
 	public LetDto letToLetDto(Let let) {
 		LetDto letDto = new LetDto();
@@ -24,7 +19,7 @@ public class LetMapper {
 		letDto.setDuzina(let.getDuzina());
 		letDto.setCena(let.getCena());
 		letDto.setMilje(let.getMilje());
-		letDto.setAvion(avionMapper.avionToAvionDto(let.getAvion()));
+		letDto.setKapacitet(let.getAvion().getKapacitetPutnika());
 		return letDto;
 	}
 	
