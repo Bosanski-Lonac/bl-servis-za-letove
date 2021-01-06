@@ -77,11 +77,14 @@ public class LetServiceImpl implements LetService {
 	}
 	
 	@Override
-	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija, Integer minDuzina,
-			Integer maxDuzina, Integer minCena, Integer maxCena, Integer brojStranice)
+	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija,
+			Integer minDuzina, Integer maxDuzina, 
+			Integer minCena, Integer maxCena,
+			Integer minDaljina, Integer maxDaljina,
+			Integer brojStranice)
 			throws EmptyResultDataAccessException {
 		Specification<Let> specification = LetSpecifications.getLetByCriteriaSpec(pocetnaDestinacija,
-				krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena);
+				krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena, minDaljina, maxDaljina);
 		Page<LetDto> strana = letRepository.findAll(specification, PageRequest.of(brojStranice, velicinaStranice))
 				.map(letMapper::letToLetDto);
 		

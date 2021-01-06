@@ -61,7 +61,8 @@ public class LetController {
 			@RequestParam(value = "ndal", required = false, defaultValue="-1") Integer minDaljina,
 			@RequestParam(value = "xdal", required = false, defaultValue="-1") Integer maxDaljina,
 			@RequestParam(value = "bstr", required = false, defaultValue="0") Integer brojStranice) {
-		return new ResponseEntity<>(letService.findAll(pocetnaDestinacija, krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena, brojStranice), HttpStatus.OK);
+		return new ResponseEntity<>(letService.findAll(pocetnaDestinacija, krajnjaDestinacija,
+				minDuzina, maxDuzina, minCena, maxCena, minDaljina, maxDaljina, brojStranice), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Brisanje leta")
