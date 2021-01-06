@@ -58,6 +58,8 @@ public class LetController {
 			@RequestParam(value = "xduz", required = false, defaultValue="-1") Integer maxDuzina,
 			@RequestParam(value = "ncen", required = false, defaultValue="-1") Integer minCena,
 			@RequestParam(value = "xcen", required = false, defaultValue="-1") Integer maxCena,
+			@RequestParam(value = "ndal", required = false, defaultValue="-1") Integer minDaljina,
+			@RequestParam(value = "xdal", required = false, defaultValue="-1") Integer maxDaljina,
 			@RequestParam(value = "bstr", required = false, defaultValue="0") Integer brojStranice) {
 		return new ResponseEntity<>(letService.findAll(pocetnaDestinacija, krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena, brojStranice), HttpStatus.OK);
 	}

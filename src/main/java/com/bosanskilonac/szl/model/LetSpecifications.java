@@ -27,8 +27,16 @@ public class LetSpecifications {
 		};
 	}
 	
-	public static Specification<Let> getLetByCriteriaSpec(String pocetnaDestinacija, String krajnjaDestinacija, Integer minDuzina,
-			Integer maxDuzina, Integer minCena, Integer maxCena) {
+	public static Specification<Let> getLetByDaljinaSpec(Integer min, Integer max) {
+		return (root, query, criteriaBuilder) -> {
+			return criteriaBuilder.between(root.get("milje"), min, max);
+		};
+	}
+	
+	public static Specification<Let> getLetByCriteriaSpec(String pocetnaDestinacija, String krajnjaDestinacija,
+			Integer minDuzina, Integer maxDuzina, 
+			Integer minCena, Integer maxCena,
+			Integer minDaljina, Integer maxDaljina) {
 		Specification<Let> specifications = null;
 		if(!pocetnaDestinacija.isBlank()) {
 			specifications = Specification.where(getLetByPocetnaDestinacijaSpec(pocetnaDestinacija));
@@ -51,6 +59,14 @@ public class LetSpecifications {
 		}
 		if(minCena >= 0 && maxCena >= 0) {
 			Specification<Let> specification = getLetByCenaSpec(minCena, maxCena);
+			if(specifications != null) {
+				specifications.and(specification);
+			} else {
+				specifications = Specification.where(specification);
+			}
+		}
+		if(minDaljina >= 0 && maxDaljina >= 0) {
+			Specification<Let> specification = getLetByDaljinaSpec(minDaljina, maxDaljina);
 			if(specifications != null) {
 				specifications.and(specification);
 			} else {
