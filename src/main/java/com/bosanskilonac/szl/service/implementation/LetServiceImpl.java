@@ -1,5 +1,8 @@
 package com.bosanskilonac.szl.service.implementation;
 
+import java.util.HashMap;
+import java.util.Optional;
+
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dto.LetCUDto;
 import dto.LetDto;
+import dto.LetoviDto;
+import dto.ListaLetovaDto;
 import exceptions.NotFoundException;
 import utility.BLURL;
 
@@ -62,6 +67,21 @@ public class LetServiceImpl implements LetService {
 				.orElseThrow(() -> new NotFoundException("Let nije nađen."));
 		LetDto letDto = letMapper.letToLetDto(let);
 		return letDto;
+	}
+	
+	@Override
+	public LetoviDto findLetovi(ListaLetovaDto listaLetovaDto) {
+		LetoviDto letoviDto = new LetoviDto();
+		letoviDto.setLetoviDto(new HashMap<>());
+		for(Long letId : listaLetovaDto.getLetovi()) {
+			Optional<Let> let = letRepository
+					.findById(letId);
+			if(let.isPresent()) {
+				LetDto letDto = letMapper.letToLetDto(let.get());
+				letoviDto.getLetoviDto().put(letId, letDto);
+			}
+		}
+		return letoviDto;
 	}
 	
 	@Override

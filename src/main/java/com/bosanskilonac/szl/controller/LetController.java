@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,8 @@ import com.bosanskilonac.szl.service.LetService;
 
 import dto.LetCUDto;
 import dto.LetDto;
+import dto.LetoviDto;
+import dto.ListaLetovaDto;
 import enums.Role;
 import io.swagger.annotations.ApiOperation;
 import security.CheckSecurity;
@@ -48,10 +51,18 @@ public class LetController {
 		return new ResponseEntity<>(letService.findById(letId), HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Prikaz letova po id-u")
+	@PutMapping
+	@CheckSecurity(roles = {Role.ROLE_USER}, checkOwnership = false)
+	public ResponseEntity<LetoviDto> getLetovePoId(@RequestHeader("Authorization") String authorization,
+			@RequestBody @Valid ListaLetovaDto listaLetovaDto) {
+		return new ResponseEntity<>(letService.findLetovi(listaLetovaDto), HttpStatus.OK);
+	}
+	
 	@ApiOperation(value = "Prikaz svih letova")
 	@GetMapping
 	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN}, checkOwnership = false)
-	public ResponseEntity<Page<LetDto>> getLetovi(@RequestHeader("Authorization") String authorization,
+	public ResponseEntity<Page<LetDto>> getLetove(@RequestHeader("Authorization") String authorization,
 			@RequestParam(value = "dprt", required = false, defaultValue="") String pocetnaDestinacija,
 			@RequestParam(value = "arvl", required = false, defaultValue="") String krajnjaDestinacija,
 			@RequestParam(value = "nduz", required = false, defaultValue="-1") Integer minDuzina,
