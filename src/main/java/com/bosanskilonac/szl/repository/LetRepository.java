@@ -15,14 +15,14 @@ import java.util.List;
 public interface LetRepository extends JpaRepository<Let, Long>, JpaSpecificationExecutor<Let> {
 	long countByAvionId(Long avionId);
 	void deleteById(Long id);
-	@Query(value = "Select MIN(cena) FROM Let l")
+	@Query(value = "Select MIN(cena) FROM Let let")
 	BigDecimal findMinCena();
-	@Query(value = "Select MAX(cena) FROM Let l")
+	@Query(value = "Select MAX(cena) FROM Let let")
 	BigDecimal findMaxCena();
-	@Query(value = "Select MIN(duzina) FROM Let l")
+	@Query(value = "Select MIN(duzina) FROM Let let")
 	Integer findMinDuzina();
-	@Query(value = "Select MAX(duzina) FROM Let l")
+	@Query(value = "Select MAX(duzina) FROM Let let")
 	Integer findMaxDuzina();
-	@Query(value = "SELECT pocetna_destinacija, krajnja_destinacija FROM Let let")
+	@Query(value = "SELECT pocetnaDestinacija, krajnjaDestinacija FROM Let let")
 	List<String> findDestinacije();
 }
