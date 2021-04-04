@@ -2,6 +2,8 @@ package com.bosanskilonac.szl.controller;
 
 import javax.validation.Valid;
 
+import dto.*;
+import enums.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bosanskilonac.szl.service.LetService;
 
-import dto.LetCUDto;
-import dto.LetDto;
-import dto.LetoviDto;
-import dto.ListaLetovaDto;
-import enums.Role;
 import io.swagger.annotations.ApiOperation;
 import security.CheckSecurity;
 
@@ -74,6 +71,13 @@ public class LetController {
 			@RequestParam(value = "bstr", required = false, defaultValue="0") Integer brojStranice) {
 		return new ResponseEntity<>(letService.findAll(pocetnaDestinacija, krajnjaDestinacija,
 				minDuzina, maxDuzina, minCena, maxCena, minDaljina, maxDaljina, brojStranice), HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "Prikaz informacija o letovima")
+	@GetMapping("/info")
+	@CheckSecurity(roles = {Role.ROLE_USER, Role.ROLE_ADMIN}, checkOwnership = false)
+	public ResponseEntity<LetoviInfoDto> getLetoviInfo(@RequestHeader("Authorization") String authorization) {
+		return new ResponseEntity<>(letService.getLetoviInfo(), HttpStatus.OK);
 	}
 	
 	@ApiOperation(value = "Brisanje leta")

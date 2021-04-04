@@ -1,12 +1,15 @@
 package com.bosanskilonac.szl.service.implementation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
+import dto.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +23,6 @@ import com.bosanskilonac.szl.service.LetService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import dto.LetCUDto;
-import dto.LetDto;
-import dto.LetoviDto;
-import dto.ListaLetovaDto;
 import exceptions.NotFoundException;
 import utility.BLURL;
 
@@ -83,7 +82,18 @@ public class LetServiceImpl implements LetService {
 		}
 		return letoviDto;
 	}
-	
+
+	@Override
+	public LetoviInfoDto getLetoviInfo() {
+		LetoviInfoDto letoviInfo = new LetoviInfoDto();
+		letoviInfo.setMinCena(letRepository.findMinCena());
+		letoviInfo.setMaxCena(letRepository.findMaxCena());
+		letoviInfo.setMinDuzina(letRepository.findMinDuzina());
+		letoviInfo.setMaxDuzina(letRepository.findMaxDuzina());
+		letoviInfo.setGradovi(letRepository.findDestinacije());
+		return letoviInfo;
+	}
+
 	@Override
 	public Page<LetDto> findAll(String pocetnaDestinacija, String krajnjaDestinacija,
 			Integer minDuzina, Integer maxDuzina, 
