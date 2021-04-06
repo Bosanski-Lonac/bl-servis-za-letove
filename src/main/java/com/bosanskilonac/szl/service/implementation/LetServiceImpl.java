@@ -90,6 +90,8 @@ public class LetServiceImpl implements LetService {
 		letoviInfo.setMaxCena(letRepository.findMaxCena());
 		letoviInfo.setMinDuzina(letRepository.findMinDuzina());
 		letoviInfo.setMaxDuzina(letRepository.findMaxDuzina());
+		letoviInfo.setMinDaljina(letRepository.findMinDaljina());
+		letoviInfo.setMaxDaljina(letRepository.findMaxDaljina());
 		letoviInfo.setGradovi(letRepository.findDestinacije());
 		return letoviInfo;
 	}
