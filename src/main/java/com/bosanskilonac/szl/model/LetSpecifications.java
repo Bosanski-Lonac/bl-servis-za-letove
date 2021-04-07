@@ -44,7 +44,7 @@ public class LetSpecifications {
 		if(!krajnjaDestinacija.isBlank()) {
 			Specification<Let> specification = getLetByKrajnjaDestinacijaSpec(krajnjaDestinacija);
 			if(specifications != null) {
-				specifications.and(specification);
+				specifications = specifications.and(specification);
 			} else {
 				specifications = Specification.where(specification);
 			}
@@ -52,7 +52,7 @@ public class LetSpecifications {
 		if(minDuzina >= 0 && maxDuzina >= 0) {
 			Specification<Let> specification = getLetByDuzinaSpec(minDuzina, maxDuzina);
 			if(specifications != null) {
-				specifications.and(specification);
+				specifications = specifications.and(specification);
 			} else {
 				specifications = Specification.where(specification);
 			}
@@ -60,7 +60,7 @@ public class LetSpecifications {
 		if(minCena >= 0 && maxCena >= 0) {
 			Specification<Let> specification = getLetByCenaSpec(minCena, maxCena);
 			if(specifications != null) {
-				specifications.and(specification);
+				specifications = specifications.and(specification);
 			} else {
 				specifications = Specification.where(specification);
 			}
@@ -68,7 +68,7 @@ public class LetSpecifications {
 		if(minDaljina >= 0 && maxDaljina >= 0) {
 			Specification<Let> specification = getLetByDaljinaSpec(minDaljina, maxDaljina);
 			if(specifications != null) {
-				specifications.and(specification);
+				specifications = specifications.and(specification);
 			} else {
 				specifications = Specification.where(specification);
 			}
