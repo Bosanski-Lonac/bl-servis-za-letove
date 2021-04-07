@@ -27,6 +27,8 @@ public interface LetRepository extends JpaRepository<Let, Long>, JpaSpecificatio
 	Integer findMinDaljina();
 	@Query(value = "SELECT MAX(let.milje) FROM Let let")
 	Integer findMaxDaljina();
-	@Query(value = "SELECT let.pocetnaDestinacija, let.krajnjaDestinacija FROM Let let")
-	List<String> findDestinacije();
+	@Query(value = "SELECT DISTINCT let.pocetnaDestinacija FROM Let let")
+	List<String> findPocetneDestinacije();
+	@Query(value = "SELECT DISTINCT let.krajnjaDestinacija FROM Let let")
+	List<String> findKrajnjeDestinacije();
 }

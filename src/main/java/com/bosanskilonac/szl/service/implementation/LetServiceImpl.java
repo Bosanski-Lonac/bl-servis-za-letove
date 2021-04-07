@@ -1,6 +1,7 @@
 package com.bosanskilonac.szl.service.implementation;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -92,7 +93,9 @@ public class LetServiceImpl implements LetService {
 		letoviInfo.setMaxDuzina(letRepository.findMaxDuzina());
 		letoviInfo.setMinDaljina(letRepository.findMinDaljina());
 		letoviInfo.setMaxDaljina(letRepository.findMaxDaljina());
-		letoviInfo.setGradovi(letRepository.findDestinacije());
+		letoviInfo.setDestinacije(new HashSet<>());
+		letoviInfo.getDestinacije().addAll(letRepository.findPocetneDestinacije());
+		letoviInfo.getDestinacije().addAll(letRepository.findKrajnjeDestinacije());
 		return letoviInfo;
 	}
 
