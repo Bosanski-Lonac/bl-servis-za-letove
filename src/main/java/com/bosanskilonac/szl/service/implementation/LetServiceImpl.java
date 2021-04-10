@@ -29,7 +29,7 @@ import utility.BLURL;
 
 @Service
 public class LetServiceImpl implements LetService {
-	private final int velicinaStranice = 50;
+	private final int velicinaStranice = 12;
 	
 	private LetRepository letRepository;
 	private LetMapper letMapper;
