@@ -1,16 +1,14 @@
 package com.bosanskilonac.szl.service.implementation;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
+import java.util.TreeSet;
 
 import dto.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +27,7 @@ import utility.BLURL;
 
 @Service
 public class LetServiceImpl implements LetService {
-	private final int velicinaStranice = 12;
+	private static final int VELICINA_STRANICE = 12;
 	
 	private LetRepository letRepository;
 	private LetMapper letMapper;
@@ -93,7 +91,7 @@ public class LetServiceImpl implements LetService {
 		letoviInfo.setMaxDuzina(letRepository.findMaxDuzina());
 		letoviInfo.setMinDaljina(letRepository.findMinDaljina());
 		letoviInfo.setMaxDaljina(letRepository.findMaxDaljina());
-		letoviInfo.setDestinacije(new HashSet<>());
+		letoviInfo.setDestinacije(new TreeSet<>(String.CASE_INSENSITIVE_ORDER));
 		letoviInfo.getDestinacije().addAll(letRepository.findPocetneDestinacije());
 		letoviInfo.getDestinacije().addAll(letRepository.findKrajnjeDestinacije());
 		return letoviInfo;
@@ -108,7 +106,7 @@ public class LetServiceImpl implements LetService {
 			throws EmptyResultDataAccessException {
 		Specification<Let> specification = LetSpecifications.getLetByCriteriaSpec(pocetnaDestinacija,
 				krajnjaDestinacija, minDuzina, maxDuzina, minCena, maxCena, minDaljina, maxDaljina);
-		return letRepository.findAll(specification, PageRequest.of(brojStranice, velicinaStranice))
+		return letRepository.findAll(specification, PageRequest.of(brojStranice, VELICINA_STRANICE))
 				.map(letMapper::letToLetDto);
 	}
 
